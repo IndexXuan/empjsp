@@ -1,0 +1,23 @@
+1,转发
+  1）
+      一个web组件（servlet jsp）将未完成的处理转交给另一个web组件
+     继续处理，转发的各个组件共享一个request和response对象
+  2）如何转发
+   2.1绑定数据
+    request.setAttribute(String name,Object obj);
+   2.2 获得转发器
+    RequestDispatcher rd=req.getRequestDispatcher(String uri);
+   2.3 转发
+    rd.forward(request,response);
+  3）编程中需要注意的问题
+  	转发之前，不能够执行out.close()或者out.flush()
+  	转发之前，会将response中缓存的数据清空
+  //整合案例
+   	由servlet负责处理数据库操作  jsp负责显示
+  	
+  	
+  	
+  	
+  	
+  	
+    
