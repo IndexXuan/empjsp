@@ -2,7 +2,7 @@
 java web project --- empjsp
 
 ##env
-java
-mysql
+java  
+mysql  
 tomcat
 
