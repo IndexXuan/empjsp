@@ -1,8 +1,6 @@
 package web;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -10,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import util.DAOFactory;
 
@@ -27,16 +26,8 @@ public class SomeServlet extends HttpServlet {
 		// 获取url地址
 		String url = req.getRequestURI();
 		String path = url.substring(url.lastIndexOf("/"), url.lastIndexOf("."));
-		
-		//获取日期参数
-		Date date = new Date();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		String dateStr = sdf.format(date);
-		req.setAttribute("date", dateStr);
-		
 		// 根据地址 执行相对应的数据库操作
 		if (path.equals("/add")) {
-
 			EmployeeDAO dao = (EmployeeDAO) DAOFactory
 					.getInstance("EmployeeDAO");
 			Employee eps = new Employee();
@@ -51,7 +42,6 @@ public class SomeServlet extends HttpServlet {
 			}
 			resp.sendRedirect("list.do");
 		}else if (path.equals("/list")) {
-
 			// 使用dao访问数据库
 			EmployeeDAO dao = (EmployeeDAO) DAOFactory
 					.getInstance("EmployeeDAO");
@@ -73,16 +63,11 @@ public class SomeServlet extends HttpServlet {
 			Long id = Long.parseLong(req.getParameter("id"));
 			try {
 				dao.delete(id);
-				List<Employee> emps;
-				emps = dao.findAll();
-				req.setAttribute("emps", emps);
-				RequestDispatcher rd = req.getRequestDispatcher("emplist.jsp");
-				rd.forward(req, resp);
+				resp.sendRedirect("list.do");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}else if (path.equals("/edit")) {
-
 			EmployeeDAO dao = (EmployeeDAO) DAOFactory
 					.getInstance("EmployeeDAO");
 			long id = Long.parseLong(req.getParameter("id"));
@@ -95,7 +80,6 @@ public class SomeServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}else if (path.equals("/update")) {
-
 			Long id = Long.parseLong(req.getParameter("id"));
 			String name = req.getParameter("name");
 			double salary = Double.parseDouble(req.getParameter("salary"));
@@ -113,31 +97,43 @@ public class SomeServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 			resp.sendRedirect("list.do");
-		}
-		
-		if (path.equals("/regist")) {
-			
-			UserDao dao = new UserDao();
-			String username = req.getParameter("username");
-			// 查看用户名是否被使用
-			User u = dao.findByUsername(username);
-			if ( u == null ) {
-				// 此用户名可以使用
-				// 将表单传入的数据封装成一个user对象
-				User user = new User();
+		}else if(path.equals("/regist")){
+			UserDao dao=new UserDao();
+			String username=req.getParameter("username");
+			//查看用户名是否被使用	
+			User u=dao.findByUsername(username);
+			if(u==null){
+				//此用户名可以使用
+				//将表单传入的数据获取并封装成一个user对象
+				User user=new User();
 				user.setGendar(req.getParameter("sex"));
 				user.setName(req.getParameter("name"));
 				user.setPwd(req.getParameter("pwd"));
 				user.setUsername(username);
-				
 				dao.save(user);
 				resp.sendRedirect("main.jsp");
-			} else {
-				// 用户名已经存在
-				/** 将提示信息到request中，并且转发到reqist.jsp页面
-				 * 此时jsp页面就能获取到报错信息，用在span中显示  */
+			}else{
+				//用户名已经存在
+				/**将提示信息绑定到request中，并且转发到regist.jsp页面
+				 * 此时jsp页面就能获取到报错信息，用于在span中显示*/
 				req.setAttribute("regist_error", "此用户名已经存在");
 				req.getRequestDispatcher("regist.jsp").forward(req, resp);
+			}
+		}else if(path.equals("/login")){
+			UserDao dao=new UserDao();
+			String name=req.getParameter("name");
+			String pwd=req.getParameter("pwd");
+			User u=dao.findByUsername(name);
+			if(u==null){
+				req.setAttribute("username_error", "此用户名不存在");
+				req.getRequestDispatcher("login.jsp").forward(req, resp);
+			}else if(!u.getPwd().equals(pwd)){
+				req.setAttribute("pwd_error", "密码不正确");
+				req.getRequestDispatcher("login.jsp").forward(req, resp);
+			}else{
+				HttpSession session = req.getSession(); 
+				session.setAttribute("user", u); 
+				resp.sendRedirect("list.do");
 			}
 		}
 	}

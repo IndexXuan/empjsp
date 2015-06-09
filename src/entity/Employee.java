@@ -1,12 +1,6 @@
 package entity;
 
 public class Employee {
-	
-	private long id;
-    private  String name;
-    private double salary;
-    private int age;
-    
 	public long getId() {
 		return id;
 	}
@@ -31,5 +25,8 @@ public class Employee {
 	public void setAge(int age) {
 		this.age = age;
 	}
-
+	private long id;
+	private  String name;
+	private double salary;
+	private int age;
 }

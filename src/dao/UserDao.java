@@ -10,7 +10,6 @@ import entity.User;
 import util.DBUtil;
 
 public class UserDao {
-	
 	public void save(User u){
 		//预编译sql语句
 		Connection conn = DBUtil.getConnection();
@@ -31,19 +30,20 @@ public class UserDao {
 		}
 	}
 	
-    public User findByUsername(String username) {
-    	User u = null;
-    	Connection conn = DBUtil.getConnection();
-    	PreparedStatement prep;
-    	try {
-			prep = conn.prepareStatement("select * from t_user where username = ?");
+	public User findByUsername(String username){
+		User u = null;
+		Connection conn = DBUtil.getConnection();
+		PreparedStatement prep;
+		try {
+			prep=conn.prepareStatement("select * from t_user where username=?");
 			prep.setString(1, username);
-			ResultSet rs = prep.executeQuery();
-			while (rs.next()) {
-				u = new User(); // if has user, then new it.
-				u.setName(rs.getString("name"));
+			ResultSet rs=prep.executeQuery();
+			while(rs.next()){
+				u=new User();
 				u.setGendar(rs.getString("gendar"));
+				u.setUsername(rs.getString("username"));
 				u.setId(rs.getLong("id"));
+				u.setName(rs.getString("name"));
 				u.setPwd(rs.getString("pwd"));
 			}
 		} catch (SQLException e) {
@@ -51,10 +51,10 @@ public class UserDao {
 			e.printStackTrace();
 		}
 		return u;
-    }
+	}
 	
 	public static void main(String[] args) {
-		User u = new User();
+		User u=new User();
 		u.setId(2);
 		u.setUsername("管理2");
 		u.setName("李四");

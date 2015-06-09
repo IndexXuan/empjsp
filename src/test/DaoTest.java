@@ -1,5 +1,8 @@
 package test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import dao.EmployeeDAO;
 import util.DAOFactory;
 import util.DBUtil;
@@ -16,5 +19,9 @@ public class DaoTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		Date date = new Date();
+		SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
+		System.out.println(sd.format(date));
 	}
 }

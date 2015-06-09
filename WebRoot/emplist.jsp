@@ -5,29 +5,21 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 	</head>
-	<body>
-		<div id="wrap">
+	<body>		<div id="wrap">
 			<div id="top_content"> 
-				<div id="header">
-					<div id="rightheader">
-						<p>
-							<%=request.getAttribute("date") %>
-							<br />
-						</p>
-					</div>
-					<div id="topheader">
-						<h1 id="title">
-							<a href="#">主页面</a>
-						</h1>
-					</div>
-					<div id="navigation">
-					</div>
-				</div>
+				<%@include file="head.jsp" %>
 				<div id="content">
 					<p id="whereami">
 					</p>
 					<h1>
-						欢迎!
+					<%
+						User u=(User)session.getAttribute("user");
+						if(u==null){
+							response.sendRedirect("login.jsp");
+							return;
+						}
+					%>
+						欢迎!<%=u.getUsername() %>
 					</h1>
 					<table class="table">
 						<tr class="table_header">
@@ -78,11 +70,7 @@
 					</p>
 				</div>
 			</div>
-			<div id="footer">
-				<div id="footer_bg">
-				i@yyork.cn
-				</div>
-			</div>
+            <%@include file="foot.jsp" %>
 		</div>
 	</body>
 </html>

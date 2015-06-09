@@ -8,6 +8,36 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   
+    <servlet>
+  <servlet-name>addCookie</servlet-name>
+  <servlet-class>web.AddCookieServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>addCookie</servlet-name>
+  <url-pattern>/addCookie</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>findCookie</servlet-name>
+  <servlet-class>web.FindCookieServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>findCookie</servlet-name>
+  <url-pattern>/findCookie</url-pattern>
+  </servlet-mapping>
+ 
+  <servlet>
+  <servlet-name>addfindCookie</servlet-name>
+  <servlet-class>web.Add_FindCookieServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>addfindCookie</servlet-name>
+  <url-pattern>/addfindCookie</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
   <servlet-name>some</servlet-name>
   <servlet-class>web.SomeServlet</servlet-class>

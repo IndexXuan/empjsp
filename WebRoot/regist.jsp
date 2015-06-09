@@ -1,4 +1,4 @@
-<%@page import="dao.*,util.*,entity.*,java.util.*,java.text.SimpleDateFormat" pageEncoding="utf-8" contentType="text/html; charset=UTF-8"%>
+<%@page import="dao.*,util.*,entity.*,java.util.*" pageEncoding="utf-8" contentType="text/html; charset=UTF-8"%>
 <html>
 	<head>
 		<title>注册</title>
@@ -8,25 +8,7 @@
 	<body>
 		<div id="wrap">
 			<div id="top_content">
-					<div id="header">
-						<div id="rightheader">
-							<p>
-								<%Date date = new Date();
-								SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-								String nowdate=sdf.format(date);
-								%>
-								<%=nowdate%>
-								<br />
-							</p>
-						</div>
-						<div id="topheader">
-							<h1 id="title">
-								<a href="#">主页面</a>
-							</h1>
-						</div>
-						<div id="navigation">
-						</div>
-					</div>
+					<%@include file="head.jsp" %>
 				<div id="content">
 					<p id="whereami">
 					</p>
@@ -42,8 +24,8 @@
 								</td>
 								<td valign="middle" align="left">
 									<input type="text" class="inputgri" name="username" />
-			                        <%String msg=(String)request.getAttribute("regist_error"); %>
-			                        <span style="color: red; font-style:italic;"><%= (msg == null ? "" : msg) %></span>
+									<%String msg=(String)request.getAttribute("regist_error"); %>
+									<span style="color:red;font-style:italic"><%=(msg==null?"":msg) %></span>
 								</td>
 							</tr>
 							<tr>
@@ -91,11 +73,7 @@
 					</form>
 				</div>
 			</div>
-			<div id="footer">
-				<div id="footer_bg">
-				i@yyork.cn
-				</div>
-			</div>
+            <%@include file="foot.jsp" %>
 		</div>
 	</body>
 </html>

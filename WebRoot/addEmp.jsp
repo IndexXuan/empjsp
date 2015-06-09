@@ -10,25 +10,7 @@
 	<body>
 		<div id="wrap">
 			<div id="top_content">
-					<div id="header">
-						<div id="rightheader">
-							<p>
-								<%Date date = new Date();
-								SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-								String nowdate=sdf.format(date);
-								%>
-								<%=nowdate%>
-								<br />
-							</p>
-						</div>
-						<div id="topheader">
-							<h1 id="title">
-								<a href="#">主页面</a>
-							</h1>
-						</div>
-						<div id="navigation">
-						</div>
-					</div>
+					<%@include file="head.jsp" %>
 				<div id="content">
 					<p id="whereami">
 					</p>

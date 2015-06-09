@@ -35,8 +35,6 @@ public class EmpDAOJdbcImpl implements EmployeeDAO {
 			e.setAge(rs.getInt("age"));
 			eps.add(e);
 		}
-		// close db, add by self
-		conn.close();
 		return eps;
 	}
 
@@ -64,7 +62,6 @@ public class EmpDAOJdbcImpl implements EmployeeDAO {
 			eps.setSalary(rs.getDouble("salary"));
 			eps.setAge(rs.getInt("age"));
 		}
-		conn.close();
 		return eps;
 	}
 

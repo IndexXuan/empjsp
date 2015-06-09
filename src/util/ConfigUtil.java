@@ -5,7 +5,6 @@ import java.util.Properties;
 
 /** 读取properties文件的工具类 */
 public class ConfigUtil {
-	
 	private static Properties props = new Properties();
 	static {
 		// 1，获取类加载器
@@ -13,8 +12,8 @@ public class ConfigUtil {
 		// 2，将配置文件以流的形式读取进来
 		InputStream ips = loder
 				.getResourceAsStream("util/daoconfig.properties");
-		// 3，加载配置文件
 		try {
+			// 3，加载配置文件
 			props.load(ips);
 		} catch (Exception e) {
 			e.printStackTrace();
