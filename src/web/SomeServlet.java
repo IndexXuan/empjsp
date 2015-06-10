@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import util.DAOFactory;
-
 import dao.EmployeeDAO;
 import dao.UserDao;
 import entity.Employee;
@@ -98,20 +97,35 @@ public class SomeServlet extends HttpServlet {
 			}
 			resp.sendRedirect("list.do");
 		}else if(path.equals("/regist")){
+			/** 先比较验证码 */
+			String checkcode1 = req.getParameter("number");
+			// 获取验证生成的验证码
+			HttpSession session = req.getSession();
+			String checkcode2 = (String) session.getAttribute("checkcode");
 			UserDao dao=new UserDao();
 			String username=req.getParameter("username");
 			//查看用户名是否被使用	
 			User u=dao.findByUsername(username);
 			if(u==null){
-				//此用户名可以使用
-				//将表单传入的数据获取并封装成一个user对象
-				User user=new User();
-				user.setGendar(req.getParameter("sex"));
-				user.setName(req.getParameter("name"));
-				user.setPwd(req.getParameter("pwd"));
-				user.setUsername(username);
-				dao.save(user);
-				resp.sendRedirect("main.jsp");
+				// 用户名可以使用的情况下判断验证码
+			    if (checkcode1.equals(checkcode2)) {
+			    	// 将信息封装成user对象
+					User user=new User();
+					user.setGendar(req.getParameter("sex"));
+					user.setName(req.getParameter("name"));
+					user.setPwd(req.getParameter("pwd"));
+					user.setUsername(username);
+					dao.save(user);
+					resp.sendRedirect("login.jsp");
+			    } else {
+					//验证码错误
+					/**将提示信息绑定到request中，并且转发到regist.jsp页面
+					 * 此时jsp页面就能获取到报错信息，用于在span中显示*/
+					req.setAttribute("checkcode_error", "验证码错误");
+					req.getRequestDispatcher("regist.jsp").forward(req, resp);
+			    }
+
+
 			}else{
 				//用户名已经存在
 				/**将提示信息绑定到request中，并且转发到regist.jsp页面
@@ -137,4 +151,5 @@ public class SomeServlet extends HttpServlet {
 			}
 		}
 	}
+
 }

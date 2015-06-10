@@ -10,11 +10,11 @@
    2.3 转发
     rd.forward(request,response);
   3）编程中需要注意的问题
-  	转发之前，不能够执行out.close()或者out.flush()
-  	转发之前，会将response中缓存的数据清空
+    转发之前，不能够执行out.close()或者out.flush()
+    转发之前，会将response中缓存的数据清空
   //整合案例
-   	由servlet负责处理数据库操作  jsp负责显示
-   	
+    由servlet负责处理数据库操作  jsp负责显示
+    
  1.中文乱码问题
     跟数据库有关的
     1.1  创建数据库是有没有设置default character set utf-8; (安装数据库时就应该utf-8)
@@ -28,35 +28,35 @@
     1.1  resp.setContentType("text/html;charset=utf-8");
     
  2.路径问题
- 	1）链接地址、表单提交、重定向、转发的路径如何写？
- 	  a，链接地址		<a href="任意地址"></a>
- 	  b，表单提交		<form action="地址">（此处正常写同一个项目下的地址）
- 	  c，重定向		response.sendRedirect("任意地址");
- 	  d，转发			getRequestDispatcher("同一个项目下的地址");
- 	  
- 	2）相对路径和绝对路径
- 	相对路径：不以"/"开头的路径  如<a href="add.do"></a>  在当前路径下跳转
- 	绝对路径：以"/"开头的路径  如<a href="/应用名/add.do"></a>
+  1）链接地址、表单提交、重定向、转发的路径如何写？
+    a，链接地址    <a href="任意地址"></a>
+    b，表单提交    <form action="地址">（此处正常写同一个项目下的地址）
+    c，重定向   response.sendRedirect("任意地址");
+    d，转发      getRequestDispatcher("同一个项目下的地址");
+    
+  2）相对路径和绝对路径
+  相对路径：不以"/"开头的路径  如<a href="add.do"></a>  在当前路径下跳转
+  绝对路径：以"/"开头的路径  如<a href="/应用名/add.do"></a>
     注意：!!!因为相对路径容易出错，在实际开发过程中尽量使用绝对路径
    
     3）怎么写绝对路径
-    	链接、表单、重定向、绝对路径从应用名开始写
-   		转发要从应用名之后开始写
-   		
+      链接、表单、重定向、绝对路径从应用名开始写
+      转发要从应用名之后开始写
+      
   3.转发和重定向的区别
-  	1）地址
-  		转发的地址必须是同一个应用内部的组件（不能跨应用，不能跨服务器）
-  		重定向的地址没有限制
-  	2）request的共享问题
-  		转发可以共享request
-  		重定向不可以
-  	原因是转发是一次请求，重定向为两次请求，request的生命周期只能在一次请求之内，请求结束，requset被删除
-  	3）浏览器地址变化问题
-  		转发地址栏地址不变
-  		重定向地址栏地址改变
-  	4）时间是否处理完毕
-  		转发是一件事情未做完
-  		重定向是一件事情已经
+    1）地址
+      转发的地址必须是同一个应用内部的组件（不能跨应用，不能跨服务器）
+      重定向的地址没有限制
+    2）request的共享问题
+      转发可以共享request
+      重定向不可以
+    原因是转发是一次请求，重定向为两次请求，request的生命周期只能在一次请求之内，请求结束，requset被删除
+    3）浏览器地址变化问题
+      转发地址栏地址不变
+      重定向地址栏地址改变
+    4）时间是否处理完毕
+      转发是一件事情未做完
+      重定向是一件事情已经
 
 ===============
 6-8状态管理
@@ -64,171 +64,180 @@
    将客户端（服务器）与服务器之间的多次交互当作一个整体来看待，即将多次操作所涉及的数据记录下来。
    
  2）怎么进行状态管理
- 	2.1 cookie（在客户端管理用户）
- 	2.2 session（在服务器端管理用户）
+  2.1 cookie（在客户端管理用户）
+  2.2 session（在服务器端管理用户）
  3）什么是cookie
- 	浏览器在访问浏览器时，服务器将一些数据以set-cookie消息头的形式发送给浏览器，浏览器会将这些数据保存起来
- 	当浏览器再次访问服务器时，会将这些数据以cookie消息头的形式发送给服务器，通过这种形式可以管理用户状态
- 	
+  浏览器在访问浏览器时，服务器将一些数据以set-cookie消息头的形式发送给浏览器，浏览器会将这些数据保存起来
+  当浏览器再次访问服务器时，会将这些数据以cookie消息头的形式发送给服务器，通过这种形式可以管理用户状态
+  
  4）创建cookie
- 	Cookie c = new Cookie(String name,String value);
- 	response.addCookie(c);
- 	
+  Cookie c = new Cookie(String name,String value);
+  response.addCookie(c);
+  
  5）查询cookie
- 	Cookie[] cs = request.getCookies();
- 	String name= c.getName();
- 	String value = c.getValue();
-  		
+  Cookie[] cs = request.getCookies();
+  String name= c.getName();
+  String value = c.getValue();
+      
  6）cookie保存时的编码问题
- 	cookie的值只能是ascii字符。如果有中文。需要将中文转成ascii字符形式
- 	可用URLEncoder.encode()
-	   URLDecoder.decode()	进行转换
-	   
+  cookie的值只能是ascii字符。如果有中文。需要将中文转成ascii字符形式
+  可用URLEncoder.encode()
+     URLDecoder.decode()  进行转换
+     
  7）cookie的保存时间
     cookie.setMaxAge(int seconds);
     seconds>0
-		浏览器会将cookie以文件的形式保存在硬盘上。超过指定的时间，会删除文件
-	seconds<0
-		默认值	，浏览器会将cookie保存在内存中，当浏览器关闭后，删除cookie
-	seconds=0
-		立刻删除
+    浏览器会将cookie以文件的形式保存在硬盘上。超过指定的时间，会删除文件
+  seconds<0
+    默认值 ，浏览器会将cookie保存在内存中，当浏览器关闭后，删除cookie
+  seconds=0
+    立刻删除
 
  8）删除cookie
- 	8.1 创建一个同名的并且内容为空的cookie
- 		Cookie c3 = new Cookie("username","");
- 	8.2 调用方法，参数为0
- 		c3.setMaxAge(0);
- 	8.3 调用方法
- 		resp.add(c3);
- 		
+  8.1 创建一个同名的并且内容为空的cookie
+    Cookie c3 = new Cookie("username","");
+  8.2 调用方法，参数为0
+    c3.setMaxAge(0);
+  8.3 调用方法
+    resp.add(c3);
+    
  9）cookie的路径问题
- 	浏览器在向服务器上的某个地址发送请求时，会比较cookie的路径和访问地址是否匹配，只有匹配的cookie，才会发送
- 	cookie的路径可以通过cookie.setPath(String path)方法来设置
- 	如果没有设置，则有一个缺省的路径，缺省的路径就是生成该cookie的组件的路径
- 	比如：/appname/addCookie	保存了一个cookie
- 	则该cookie的路径就是/appname/addCookie
- 	
+  浏览器在向服务器上的某个地址发送请求时，会比较cookie的路径和访问地址是否匹配，只有匹配的cookie，才会发送
+  cookie的路径可以通过cookie.setPath(String path)方法来设置
+  如果没有设置，则有一个缺省的路径，缺省的路径就是生成该cookie的组件的路径
+  比如：/appname/addCookie 保存了一个cookie
+  则该cookie的路径就是/appname/addCookie
+  
 案例：
-	1，新建web_cookie
-	2，在web_root下新建jsp文件
-	       在jsp文件夹下新建addCookie.jsp
+  1，新建web_cookie
+  2，在web_root下新建jsp文件
+         在jsp文件夹下新建addCookie.jsp
     3，在webRoot下新建findCookie.jsp
-    4，访问localhost:8080/web_cookie/jsp/addCookie.jsp	--用于创建cookie
-    	此时创建cookie成功，但是cookie的路径在web_cookie/jsp中
-    5，访问localhost:8080/web_cookie/findCookie.jsp	--用于查找cookie
-    	此时找不到刚才创建的cookie	student
+    4，访问localhost:8080/web_cookie/jsp/addCookie.jsp --用于创建cookie
+      此时创建cookie成功，但是cookie的路径在web_cookie/jsp中
+    5，访问localhost:8080/web_cookie/findCookie.jsp  --用于查找cookie
+      此时找不到刚才创建的cookie  student
    
-   原因：创建成功后cookie	student存在于web_cookie/jsp中
-   	而查找的访问路径是		web_cookie
-   	
-   	6，将findCookie.jsp访问jsp文件夹下，
-   	       再次访问  localhost:8080/web_cookie/jsp/findCookie.jsp
-   	       查找成功
- 	
- 		
-	7，在jsp下新建一个jsp2
-	       将findCookie.jsp复制到jsp2下，改成findCookie2.jsp
-	
-	8，访问localhost:8080/web_cookie/jsp/jsp2/findCookie.jsp
-	        查询成功
-	        
- 原因：  创建成功后cookie	student存在于web_cookie/jsp中
- 	 查找的访问路径是				web_cookie/jsp/jsp2
- 	 
+   原因：创建成功后cookie student存在于web_cookie/jsp中
+    而查找的访问路径是   web_cookie
+    
+    6，将findCookie.jsp访问jsp文件夹下，
+           再次访问  localhost:8080/web_cookie/jsp/findCookie.jsp
+           查找成功
+  
+    
+  7，在jsp下新建一个jsp2
+         将findCookie.jsp复制到jsp2下，改成findCookie2.jsp
+  
+  8，访问localhost:8080/web_cookie/jsp/jsp2/findCookie.jsp
+          查询成功
+          
+ 原因：  创建成功后cookie student存在于web_cookie/jsp中
+   查找的访问路径是       web_cookie/jsp/jsp2
+   
 规则：cookie的路径必须是要访问的路径的上层路径或者是与要访问的路径相等，浏览器才会将cookie发送给服务器
- 	我们可以通过setPath("/appname")，表示访问应用下的所有地址，均会发送cookie
- 	
+  我们可以通过setPath("/appname")，表示访问应用下的所有地址，均会发送cookie
+  
  10）cookie的限制
- 	10.1 cookie可以禁止
- 	10.2 cookie的大小有限制（4k左右）
- 	10.3 cookie的数量有限制（浏览器大约能保存300）
- 	10.4 cookie的值只能是字符串，要考虑编码问题
- 	10.5 cookie不安全
- 	
+  10.1 cookie可以禁止
+  10.2 cookie的大小有限制（4k左右）
+  10.3 cookie的数量有限制（浏览器大约能保存300）
+  10.4 cookie的值只能是字符串，要考虑编码问题
+  10.5 cookie不安全
+  
  案例：
   描述：写一个Add_FindCookieServlet，改servlet先查询有没有一个名叫name的cookie，
-  如果有，则显示该cookie的值，如果没有则创建该cookie（cookie的名字：name	cookie的值：cs）
+  如果有，则显示该cookie的值，如果没有则创建该cookie（cookie的名字：name  cookie的值：cs）
   
  11）session
- 	1）什么是session
- 	浏览器访问服务器时，服务器会 创建一个session对象（该对象有一个唯一的id，称为seesionId）。
- 	服务器在默认情况下，会将sessionId以cookie的机制发送给浏览器。当浏览器再次访问服务器时，
- 	会将sessionId发送给服务器。服务器根据sessionId就可以找到对应的session对象。通过这种
- 	方式管理用户状态。
- 	
- 	2）如何获取session对象
+  1）什么是session
+  浏览器访问服务器时，服务器会 创建一个session对象（该对象有一个唯一的id，称为seesionId）。
+  服务器在默认情况下，会将sessionId以cookie的机制发送给浏览器。当浏览器再次访问服务器时，
+  会将sessionId发送给服务器。服务器根据sessionId就可以找到对应的session对象。通过这种
+  方式管理用户状态。
+  
+  2）如何获取session对象
          方式一：
     HttpSession session = request.getSession(boolean flag);
       flag = true;
       a，服务器查看请求中是否包含sessionId，
-    	如果没有，创建一个session对象
-    	如果有，根据sessionId去查找对应的session对象，如果找到了就返回
-    		找不到，则创建一个新的session对象
- 	  b，flag=false;
- 	  	服务器查看请求中是否包含sessionId，
- 	  	如果没有，返回null
- 	  	如果有，根据sessionId去查找对应的session对象，如果找到了就返回
- 	  		找不到，返回null
- 	  		
-   	方式二：
-   		HttpSession session= request.getSession();
-   	 等价于HttpSession session= request.getSession(true);
-   	 
-   	 3）HttpSession常用方法
-   	a，获取sessionId
-   	  String session.getId();
-   	b，绑定数据
-   	  session.setAttribute(String name,Object obj);
-   	      服务器在对session进行持久化操作，会使用序列化协议，obj最好实现Serializable接口
-   	  session.getAttribute(String name)
-   	c，删除session
-   	  session.removeAttribute(String name);
+      如果没有，创建一个session对象
+      如果有，根据sessionId去查找对应的session对象，如果找到了就返回
+        找不到，则创建一个新的session对象
+    b，flag=false;
+      服务器查看请求中是否包含sessionId，
+      如果没有，返回null
+      如果有，根据sessionId去查找对应的session对象，如果找到了就返回
+        找不到，返回null
+        
+    方式二：
+      HttpSession session= request.getSession();
+     等价于HttpSession session= request.getSession(true);
+     
+     3）HttpSession常用方法
+    a，获取sessionId
+      String session.getId();
+    b，绑定数据
+      session.setAttribute(String name,Object obj);
+          服务器在对session进行持久化操作，会使用序列化协议，obj最好实现Serializable接口
+      session.getAttribute(String name)
+    c，删除session
+      session.removeAttribute(String name);
           为什么obj要实现Serializable接口？
          
  案例：CountServlet 实现访问计数
- 	定义一个用户计数的int count=0;
- 	第一次访问时，将count++ 放入到session.setAttribute();中
- 	每次访问先去查找是否能根据次count获取数据，如果不能为第一次  如果能count++继续上述操作
- 	用不同浏览器访问测试，会发现，同一个浏览器在不关闭的情况下。每次刷新访问次数会增加
- 	换一个浏览器访问次数会从1重新开始计算
- 	此时，在servlet中打印sessionId会发现，不同的浏览器sessionId不同，即对于服务器来说，不同的浏览器
- 	就是不同的用户
- 	
+  定义一个用户计数的int count=0;
+  第一次访问时，将count++ 放入到session.setAttribute();中
+  每次访问先去查找是否能根据次count获取数据，如果不能为第一次  如果能count++继续上述操作
+  用不同浏览器访问测试，会发现，同一个浏览器在不关闭的情况下。每次刷新访问次数会增加
+  换一个浏览器访问次数会从1重新开始计算
+  此时，在servlet中打印sessionId会发现，不同的浏览器sessionId不同，即对于服务器来说，不同的浏览器
+  就是不同的用户
+  
  12）session超时
- 	服务器会将指定时间的session对象删除（在指定时间内session对象没有使用）
- 	方式一：session.setMaxinactiveinterval(int seconds);
- 	方式二：服务器有一个缺省的超时设置，可以通过相应的配置文件来重新设置
- 	  如在tomcat的web.xml下（此方式会影响整个tomcat下的应用，不建议使用）
- 	  <session-config>
- 	  	<session-timeout>30</session-timeout>
- 	  </session-config>
- 	如果要改自己所写的应用的session时间。可以再应用下的web.xml文件中添加上面的代码
- 	如：将30改为了1，空闲1分钟后，再次访问/count  session失效
- 	 变为第一次访问，且sessionId也发生了变化
-	
+  服务器会将指定时间的session对象删除（在指定时间内session对象没有使用）
+  方式一：session.setMaxinactiveinterval(int seconds);
+  方式二：服务器有一个缺省的超时设置，可以通过相应的配置文件来重新设置
+    如在tomcat的web.xml下（此方式会影响整个tomcat下的应用，不建议使用）
+    <session-config>
+      <session-timeout>30</session-timeout>
+    </session-config>
+  如果要改自己所写的应用的session时间。可以再应用下的web.xml文件中添加上面的代码
+  如：将30改为了1，空闲1分钟后，再次访问/count  session失效
+   变为第一次访问，且sessionId也发生了变化
+  
  13）session删除
- 	session.invalidate();立即删除session对象  此方法不演示
-	
-	
+  session.invalidate();立即删除session对象  此方法不演示
+
+  session验证
+  防止非登录用户访问通过地址栏直接访问受保护的页面（非登录用户不可以进入list页面）
+  进入list页面之前，必须有用户登录
+  如果有用户登录，必须记录用户登录的状态(将用户帮顶到session中)
+  进入list页面之前，先从session获取信息，若能得到则进入list页面，若没有，回到登录界面
+
+
+  退出按钮：点击退出时 删除session
+  
+  
     
     
     
     
-  		
-  		
-  		
-  		
-   		
-   		
-   		
-   		
+      
+      
+      
+      
+      
+      
+      
+      
     
    
  
-  	
-  	
-  	
-  	
-  	
-  	
+    
+    
+    
+    
+    
+    
     

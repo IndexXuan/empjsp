@@ -11,16 +11,7 @@
 				<div id="content">
 					<p id="whereami">
 					</p>
-					<h1>
-					<%
-						User u=(User)session.getAttribute("user");
-						if(u==null){
-							response.sendRedirect("login.jsp");
-							return;
-						}
-					%>
-						欢迎!<%=u.getUsername() %>
-					</h1>
+
 					<table class="table">
 						<tr class="table_header">
 							<td>
